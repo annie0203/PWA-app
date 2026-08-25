@@ -15,7 +15,7 @@ document.getElementById("bookingForm").addEventListener("submit", async function
 
     // IMPORTANT:
     // Put your n8n PRODUCTION webhook URL here.
-    const webhookUrl = "http://192.168.5.251:5678/webhook-test/car-booking";
+    const webhookUrl = "http://192.168.5.251:5678/webhook/car-booking";
 
     try {
         message.innerHTML = "Booking... ";
