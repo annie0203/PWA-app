@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>car booking</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1a73e8">
+    
+
+</head>
+<body>
+    <div class="container">
+        <h1>Riyan car booking</h1>
+        <form id="bookingForm" action="#">
+            <label>full name</label>
+            <input type="text" id="name" placeholder="Enter your name" required>
+
+            <label>email</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+
+            <label>phone number</label>
+            <input type="tel" id="phone" placeholder="Enter your phone number" required>
+
+            <label>select car</label>
+            <select id="car" required>
+                <option value="">--choose car--</option>
+                <option>maruti ertiga</option>
+            </select>
+    
+
+            <label>seats</label>
+            <input type="number" id="seats"placeholder="enter number of seats" required>
+            
+    
+                
+                
+                <label>pickup date</label>
+                <input type="date" id="pickup" required>
+
+                <label>return date</label>
+                <input type="date" id="return" required>
+                <button id="installBtn"
+                style="display:none;">
+            Install App</button>
+                
+                <button type="submit">book Now</button>
+        </form>
+        
+        <p id="message"></p>
+   
+
+    <script src="script.js"></script>
+
+    
+</body>
+</html>

@@ -1,0 +1,106 @@
+Confirmation Page HTML
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Booking Confirmed</title>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f5f5f5;
+        }
+
+        .box {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        h1 {
+            color: green;
+        }
+
+        #bookingId {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h1>Booking Confirmed</h1>
+
+        <h3>
+            Thank you for booking with Riyan Car Booking App
+        </h3>
+
+        <p id="bookingId">
+            Loading Booking ID...
+        </p>
+
+        <p>
+            Your confirmation email has been sent.
+        </p>
+
+    </div>
+
+
+    <script>
+
+        // Get the response saved by the booking page
+        const responseText = localStorage.getItem("bookingResponse");
+
+        let bookingId = null;
+
+        if (responseText) {
+
+            try {
+
+                const response = JSON.parse(responseText);
+
+                console.log("Booking response:", response);
+
+                // Get Booking ID from n8n response
+                bookingId = response.bookingId;
+
+            } catch (error) {
+
+                console.error(
+                    "Error reading booking response:",
+                    error
+                );
+
+            }
+        }
+
+
+        // Display Booking ID
+        if (bookingId) {
+
+            document.getElementById("bookingId").innerHTML =
+                "Your Booking ID: " + bookingId;
+
+        } else {
+
+            document.getElementById("bookingId").innerHTML =
+                "Booking ID not available";
+
+        }
+
+    </script>
+
+</body>
+</html>

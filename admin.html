@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Riyan Car Booking - Admin Dashboard</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+    <button onclick="logout()" style="float:right; padding:10px 20px; background:red; color:white; border:none; cursor:pointer;">
+    Logout
+</button>
+
+<h1>Riyan Car Booking - Admin Dashboard</h1>
+
+<div class="container">
+
+<h1>🚗 Riyan Car Booking - Admin Dashboard</h1>
+
+<div class="cards">
+    <div class="card">
+        <h2 id="totalBookings">0</h2>
+        <p>Total Bookings</p>
+    </div>
+
+    <div class="card">
+        <h2 id="pendingBookings">0</h2>
+        <p>Pending</p>
+    </div>
+</div>
+
+<input type="text" id="search" placeholder="Search by Name,Email or car">
+<onkeyup="searchBookings()"
+style="width:300px; padding:10px; margin:20px 0;">
+<select id="statusFilter" onchange="filterBookings()">
+    <option value="all">All Bookings</option>
+    <option value="pending">Pending</option>
+    <option value="approved">Approved</option>
+    <option value="rejected">Rejected</option>
+</select>
+
+<table>
+
+<thead>
+<tr>
+<th>Booking Date</th>
+<th>Name</th>
+<th>Email</th>
+<th>Car</th>
+<th>Pickup</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+<tbody id="bookingTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="admin.js"></script>
+
+</body>
+</html>
