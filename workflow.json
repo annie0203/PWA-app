@@ -1,0 +1,370 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "254fa638-0a19-4255-80ac-c8409f5a775b",
+              "name": "name",
+              "value": "={{ $json.body.name}}",
+              "type": "string"
+            },
+            {
+              "id": "103e6b5f-1f96-41e7-b8f5-b7269959cc13",
+              "name": "email",
+              "value": "={{ $json.body.email}}",
+              "type": "string"
+            },
+            {
+              "id": "08fb2122-d88a-488a-a1aa-ca5e53933bb2",
+              "name": "phone",
+              "value": "={{ $json.body.phone}}",
+              "type": "string"
+            },
+            {
+              "id": "c1caaafd-e0c7-474f-add8-512652822889",
+              "name": "car",
+              "value": "={{ $json.body.car}}",
+              "type": "string"
+            },
+            {
+              "id": "bf669377-98f8-4d83-9c35-00978bc45830",
+              "name": "seats",
+              "value": "={{ $json.body.seats}}",
+              "type": "string"
+            },
+            {
+              "id": "0b94ab9d-f4db-4548-b170-cebe9f72feb4",
+              "name": "pickup",
+              "value": "={{ $json.body.pickup}}",
+              "type": "string"
+            },
+            {
+              "id": "9368ffbe-352e-4def-8402-aa8a04fa7223",
+              "name": "returnDate",
+              "value": "={{ $json.body.returnDate}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1424,
+        -192
+      ],
+      "id": "e42f294d-aa2e-4b8a-baad-0085eaeaa721",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "tableId": "car booking",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "name",
+              "fieldValue": "={{ $json.name}}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $json.email}}"
+            },
+            {
+              "fieldId": "phone",
+              "fieldValue": "={{ $json.phone }}"
+            },
+            {
+              "fieldId": "car",
+              "fieldValue": "={{ $json.car }}"
+            },
+            {
+              "fieldId": "seats",
+              "fieldValue": "={{ $json.seats }}"
+            },
+            {
+              "fieldId": "pickup",
+              "fieldValue": "={{ $json.pickup }}"
+            },
+            {
+              "fieldId": "returnDate",
+              "fieldValue": "={{ $json.returnDate }}"
+            },
+            {
+              "fieldId": "status",
+              "fieldValue": "=pending"
+            },
+            {
+              "fieldId": "=booking_id",
+              "fieldValue": "={{ $json.booking_id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        -32
+      ],
+      "id": "1bb7421a-7009-4140-98a4-95e0520e903d",
+      "name": "Create a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "l5aE9Xa56CDuEabf",
+          "name": "Supabase account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "car booking",
+        "returnAll": true,
+        "filterType": "none"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -992,
+        -192
+      ],
+      "id": "cc7d0d02-1f8f-4ad0-8875-e324d6428d25",
+      "name": "Get many rows",
+      "alwaysOutputData": false,
+      "credentials": {
+        "supabaseApi": {
+          "id": "l5aE9Xa56CDuEabf",
+          "name": "Supabase account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "13f80d9c-4c1f-4061-8816-e86047b0b46f",
+              "leftValue": "={{ $input.all.length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -752,
+        -128
+      ],
+      "id": "c77a65bf-161c-4764-8d54-77d6b228aca7",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"bookingId\": \"={{ $('Code in JavaScript').item.json.bookingId }}\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        48,
+        48
+      ],
+      "id": "7585d5b9-32da-4423-87b5-77f805a78171",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"success\":false,\n  \"message\":\"Sorry,this car is already booked for the selected date.\"\n}",
+        "options": {
+          "responseCode": 409
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        -480,
+        -256
+      ],
+      "id": "7e26082c-7007-4022-ab27-2fd1ed73d7da",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const bookingId = \"CB\" + Date.now();\n\nreturn [{\n  json: {\n    ...$input.first().json,\n    bookingId: bookingId\n  }\n}];;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1200,
+        -208
+      ],
+      "id": "e82b3deb-02e6-49ef-b4e9-71f8bd4afb46",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "RIYAN CAR BOOKING CONFIRMATION",
+        "emailType": "text",
+        "message": "=Hello {{$json.name}},  Your car booking is confirmed.  Booking ID: {{$json.booking_id}}  Thank you for booking with Riyan Car Booking App.  Have a safe journey!",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -64,
+        -112
+      ],
+      "id": "7020a702-2765-4ddc-81b5-d661bcbb8757",
+      "name": "Send a message",
+      "webhookId": "4331dfcd-5599-4b96-90a9-9aa35930ab03",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "2Ajk5QYuewHGa2vr",
+          "name": "Gmail account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "car-booking",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1648,
+        -192
+      ],
+      "id": "c78997e1-e779-4c07-9c34-486f221ba447",
+      "name": "Webhook",
+      "webhookId": "7365cc40-e400-4c27-9194-a542470f0d18"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "12643759-4eeb-4b57-a5bb-76dacc4c9448",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7f77ac4b45d63825b342aea2b1dffb9612a55c61e93d5190d400ff575cc9cdc3"
+  },
+  "nodeGroups": [],
+  "id": "0y5zKJt6sWuibOgd",
+  "tags": []
+}
